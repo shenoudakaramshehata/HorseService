@@ -1,0 +1,106 @@
+﻿@page
+@model PrivacyModel
+@using Microsoft.AspNetCore.Localization;
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResource> sharedResource
+@{
+    Layout = "";
+    ViewData["Title"] = "Privacy Policy";
+
+}
+<!DOCTYPE html>
+<html id="masterPageId" dir="ltr" class="skrollr skrollr-desktop">
+<partial name="_Link" />
+<body id="masterbodyid" class="stretched has-plugin-easing has-plugin-bootstrap has-plugin-lightbox has-plugin-toggles has-plugin-counter has-plugin-progress has-plugin-flexslider has-plugin-carousel has-plugin-form landing-enquiry-ready has-plugin-ajaxform has-plugin-parallax device-md">
+    <!-- Document Wrapper
+    ============================================= -->
+    <div id="wrapper" class="clearfix">
+
+        <!-- Header
+        ============================================= -->
+
+        <partial name="_Header" />
+
+
+        <!-- Slider
+        ============================================= -->
+        <section id="slider" class="slider-element dark min-vh-100 include-header" style="background-image: url(&quot;demos/landing/images/hero/1.svg&quot;);">
+            <div id="home" class="slider-inner flex-column">
+
+                <div class="vertical-middle">
+                    <div class="container">
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+
+                        <div class="row align-items-lg-center g-0">
+
+                            @*<section class="">
+            <div class="pattern-layer"></div>
+            <div class="auto-container">
+                <div class="row clearfix" style="padding-top: 9rem;">*@
+
+                            <!-- Image Column -->
+                            <div class="image-column col-lg-6 col-md-12 col-sm-12">
+
+                                <div class="sec-title">
+                                    <h2>@sharedResource["Privacy Policy"]</h2>
+                                </div>
+                                <ol class="fa-ul" style="text-align:justify">
+                                    <li style="padding-bottom:15px;">
+                                        @sharedResource["Browsing the website does not lead to the registration of any data that allows the identification of visitors to the site, except for the services that request this and include the registration of an electronic form from the visitor.Information security is taken into account through the latest technologies during the electronic processing of services and data storage."]
+
+                                    </li>
+                                    <li style="padding-bottom:15px;">
+                                        @sharedResource["The company uses a set of support software to monitor the flow of information and any attempts of illegal use."]
+
+                                    </li>
+                                    <li style="padding-bottom:15px;">
+                                        @sharedResource["Any user or visitor who performs illegal operations or provides incorrect data is liable to legal accountability according to the laws in force in the State of Kuwait."]
+                                    </li>
+                                    <li style="padding-bottom:15px;">
+                                        @sharedResource["All privacy policies are kept updated from time to time and your use of the Website and Services constitutes your acceptance of this policy."]
+                                    </li>
+                                </ol>
+                            </div>
+
+
+
+                            <!--Block-->
+                            @*</div>*@
+                            @*</section>*@
+
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section><!-- #slider end -->
+        <!-- Content
+        ============================================= -->
+        <!-- Footer
+        ============================================= -->
+        <partial name="_Footer" />
+    </div><!-- #wrapper end -->
+    <!-- Go To Top
+    ============================================= -->
+    <div id="gotoTop" class="icon-angle-up" style="display: none;"></div>
+
+    <!-- JavaScripts
+    ============================================= -->
+
+
+</body>
+</html>
+
+
+

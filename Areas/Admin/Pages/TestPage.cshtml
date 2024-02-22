@@ -1,0 +1,66 @@
+﻿@page
+@model HorseService.Areas.Admin.Pages.TestPageModel
+@{
+}
+@(Html.DevExtreme().DataGrid<HorseService.Models.Appointments>()
+    .DataSource(ds => ds.Mvc()
+        .Controller("Appointments")
+        .LoadAction("Get")
+        .Key("AppointmentsId")
+    )
+    .RemoteOperations(true)
+    .Columns(columns => {
+
+        columns.AddFor(m => m.AppointmentsId);
+
+        columns.AddFor(m => m.NumberofHorses);
+
+        columns.AddFor(m => m.Date);
+
+        columns.AddFor(m => m.TimeFrom);
+
+        columns.AddFor(m => m.TimeTowill);
+
+        columns.AddFor(m => m.Remarks);
+
+        columns.AddFor(m => m.EmployeeId).Lookup(lookup => lookup
+            .DataSource(ds => ds.WebApi().Controller("Appointments").LoadAction("EmployeesLookup").Key("Value"))
+            .ValueExpr("Value")
+            .DisplayExpr("Text")
+        );
+
+        columns.AddFor(m => m.CustomerId).Lookup(lookup => lookup
+            .DataSource(ds => ds.WebApi().Controller("Appointments").LoadAction("CustomersLookup").Key("Value"))
+            .ValueExpr("Value")
+            .DisplayExpr("Text")
+        );
+
+        columns.AddFor(m => m.Cost);
+
+        columns.AddFor(m => m.Lat);
+
+        columns.AddFor(m => m.Lng);
+
+        columns.AddFor(m => m.CustomerAddress);
+
+        columns.AddFor(m => m.PaymentMethodId).Lookup(lookup => lookup
+            .DataSource(ds => ds.WebApi().Controller("Appointments").LoadAction("PaymentMethodsLookup").Key("Value"))
+            .ValueExpr("Value")
+            .DisplayExpr("Text")
+        );
+
+        columns.AddFor(m => m.ispaid);
+
+        columns.AddFor(m => m.AppointmentStatusId).Lookup(lookup => lookup
+            .DataSource(ds => ds.WebApi().Controller("Appointments").LoadAction("AppointmentStatusesLookup").Key("Value"))
+            .ValueExpr("Value")
+            .DisplayExpr("Text")
+        );
+
+        columns.AddFor(m => m.payment_type);
+
+        columns.AddFor(m => m.PaymentID);
+
+        columns.AddFor(m => m.OrderSerialNumber);
+    })
+)

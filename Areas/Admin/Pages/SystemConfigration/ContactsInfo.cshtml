@@ -1,0 +1,279 @@
+﻿@page
+@model HorseService.Areas.Admin.Pages.SystemConfigration.ContactsInfoModel
+@{
+}
+
+<style>
+    td {
+        text-align: center !important;
+    }
+</style>
+<div class="page-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-header d-flex justify-content-between align-items-center">
+                            @sharedResource["ContactsInfo"]
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        @(Html.DevExtreme().DataGrid < HorseService.Models.ContactUs>
+    ()
+    .DataSource(ds => ds.Mvc()
+    .Controller("ContactUs")
+    .LoadAction("Get")
+    .InsertAction("Post")
+    .UpdateAction("Put")
+    .DeleteAction("Delete")
+    .Key("ContactUsId")
+    )
+    .RemoteOperations(true)
+    .Columns(columns => {
+
+
+
+        columns.AddFor(m => m.CompanyName).Caption(sharedResource["Company Name"]);
+        columns.AddFor(m => m.Mobile).Caption(sharedResource["Phone"]);
+        columns.AddFor(m => m.Email).Caption(sharedResource["Email"]);
+        columns.AddFor(m => m.Address).Caption(sharedResource["Address"]);
+        columns.AddFor(m => m.Tele).Caption(sharedResource["Tele"]);
+        columns.AddFor(m => m.Fax).Caption(sharedResource["Fax"]);
+        columns.AddFor(m => m.Facebook).Caption(sharedResource["Facebook"]);
+        columns.AddFor(m => m.Twitter).Caption(sharedResource["Twitter"]);
+        columns.AddFor(m => m.LinkedIn).Caption(sharedResource["LinkedIn"]);
+        columns.AddFor(m => m.Instgram).Caption(sharedResource["Instgram"]);
+        columns.AddFor(m => m.WhatsApp).Caption(sharedResource["WhatsApp"]);
+    })
+
+   .Editing(e => e.Mode(GridEditMode.Popup)
+.Texts(c => c.CancelRowChanges(sharedResource["Cancel"]).SaveRowChanges(sharedResource["Save"]).EditRow(sharedResource["Edit"]).AddRow(sharedResource["Add"])
+.DeleteRow(sharedResource["Delete"]).ConfirmDeleteMessage(sharedResource["Are you sure you want to delete this record?"]))
+
+
+    .AllowUpdating(true)
+    .AllowAdding(false)
+    .AllowDeleting(false)
+    .Popup(p => p
+    .Title(sharedResource["Edit ContactUs"])
+    .ShowTitle(true)
+    .MaxWidth(750)
+    .Height(300)).Form(f => f.Items(items =>
+    {
+        items.AddGroup()
+        .ColCount(2)
+        .ColSpan(2)
+        .Items(groupItems =>
+        {
+            groupItems.AddSimple().DataField("CompanyName");
+            groupItems.AddSimple().DataField("Mobile");
+            groupItems.AddSimple().DataField("Email");
+            groupItems.AddSimple().DataField("Address");
+            groupItems.AddSimple().DataField("Tele");
+            groupItems.AddSimple().DataField("Fax");
+            groupItems.AddSimple().DataField("Facebook");
+            groupItems.AddSimple().DataField("Twitter");
+            groupItems.AddSimple().DataField("LinkedIn");
+            groupItems.AddSimple().DataField("Instgram");
+            groupItems.AddSimple().DataField("WhatsApp");
+
+        });
+
+    }))
+    )
+
+   .Paging(paging => paging.PageSize(10))
+                        .Pager(pager =>
+                        {
+                            pager.Visible(true);
+                            pager.DisplayMode(GridPagerDisplayMode.Full);
+                            pager.ShowPageSizeSelector(true);
+                            pager.AllowedPageSizes(new JS("[5, 10, 'all']"));
+                            pager.ShowInfo(true);
+                            pager.ShowNavigationButtons(true);
+
+                        })
+                        .HeaderFilter(headerFilter => headerFilter.Visible(true)).ShowColumnLines(true)
+                        .ShowRowLines(true)
+                        .RowAlternationEnabled(true)
+                        .AllowColumnReordering(true)
+                        .ShowRowLines(true)
+                        .ShowColumnLines(true)
+
+                        .ShowBorders(true)
+                        .SearchPanel(searchPanel => searchPanel
+                        .Visible(true)
+
+                        .Placeholder(sharedResource["SearchTxt"]))
+                        .RemoteOperations(true)
+                        .RtlEnabled(bool.Parse(sharedResource["ArLang"]))
+                                        )
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+@*@(Html.DevExtreme().DataGrid<HorseService.Models.ContactUs>()
+    .ID("grid")
+    .DataSource(d => d.Mvc()
+        .Controller("ContactUs")
+        .LoadAction("Get")
+        .UpdateAction("Put")
+        .InsertAction("Post")
+        .DeleteAction("Delete")
+        .Key("ContactUsId")
+    )
+    .Selection(s => s.Mode(SelectionMode.Single))
+    .Paging(paging => paging.Enabled(false))
+    .Editing(e => e.Mode(GridEditMode.Popup)
+        .Popup(p => p
+            .Width(600)
+            .Height(400)
+            .Position(pos => pos
+                .My(HorizontalAlignment.Center, VerticalAlignment.Center)
+                .At(HorizontalAlignment.Center, VerticalAlignment.Center)
+                .Of("#grid")
+            )
+        )
+        .Texts(t => t
+            .ConfirmDeleteMessage("")
+        )
+    )
+    .ShowBorders(true)
+    .Columns(columns => {
+
+        columns.AddFor(m => m.CompanyName).Caption(sharedResource["Company Name"]);
+        columns.AddFor(m => m.Mobile).Caption(sharedResource["Phone"]);
+        columns.AddFor(m => m.Email).Caption(sharedResource["Email"]);
+        columns.AddFor(m => m.Address).Caption(sharedResource["Address"]);
+        columns.AddFor(m => m.Tele).Caption(sharedResource["Tele"]);
+        columns.AddFor(m => m.Fax).Caption(sharedResource["Fax"]);
+    })
+    .OnSelectionChanged("selectionChanged")
+)
+
+@(Html.DevExtreme().SpeedDialAction()
+    .ID("action-add")
+    .Icon("add")
+    .Label("Add row")
+    .Index(1)
+    .OnClick("addRow")
+)
+
+@(Html.DevExtreme().SpeedDialAction()
+    .ID("action-remove")
+    .Icon("trash")
+    .Visible(false)
+    .Label("Delete row")
+    .Index(2)
+    .OnClick("deleteRow")
+)
+
+@(Html.DevExtreme().SpeedDialAction()
+    .ID("action-edit")
+    .Icon("edit")
+    .Visible(false)
+    .Label("Edit row")
+    .Index(3)
+    .OnClick("editRow")
+)
+
+<div id="action-remove"></div>
+<div id="action-edit"></div>
+<div class="options">
+    <div class="caption">Options</div>
+    <div class="option">
+        <span>Direction:</span>
+        @(Html.DevExtreme().SelectBox()
+            .DataSource(new JS("['auto', 'up', 'down']"))
+            .Value("auto")
+            .OnSelectionChanged("directionChanged")
+        )
+    </div>
+</div>
+
+<script>
+    var directions = {
+        "auto": {
+            icon: "rowfield",
+            shading: true,
+            position: {
+                of: "#grid",
+                my: "right bottom",
+                at: "right bottom",
+                offset: "-16 -16"
+            }
+        },
+        "up": {
+            icon: "rowfield",
+            shading: true,
+            direction: "up",
+            position: {
+                of: "#grid",
+                my: "right bottom",
+                at: "right bottom",
+                offset: "-16 -16"
+            }
+        },
+        "down": {
+            icon: "rowfield",
+            shading: true,
+            direction: "down",
+            position: {
+                of: ".dx-datagrid-rowsview",
+                my: "right top",
+                at: "right top",
+                offset: "-16 16"
+            }
+        }
+    };
+
+    var selectedRowIndex = -1;
+
+    var selectionChanged = function (e) {
+        selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+
+        $("#action-remove").dxSpeedDialAction("instance").option("visible", selectedRowIndex !== -1);
+        $("#action-edit").dxSpeedDialAction("instance").option("visible", selectedRowIndex !== -1);
+    }
+
+    var getGridInstance = function() {
+        return $("#grid").dxDataGrid("instance");
+    }
+
+    var addRow = function () {
+        getGridInstance().addRow();
+        getGridInstance().deselectAll();
+    }
+
+    var deleteRow = function () {
+        getGridInstance().deleteRow(selectedRowIndex);
+        getGridInstance().deselectAll();
+    }
+
+    var editRow = function () {
+        getGridInstance().editRow(selectedRowIndex);
+        getGridInstance().deselectAll();
+    }
+
+    var directionChanged = function(e) {
+        DevExpress.config({
+            floatingActionButtonConfig: directions[e.selectedItem]
+        });
+
+        DevExpress.ui.repaintFloatingActionButton();
+    }
+</script>*@

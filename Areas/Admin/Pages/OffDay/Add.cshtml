@@ -1,0 +1,227 @@
+﻿@page
+@model HorseService.Areas.Admin.Pages.OffDay.AddModel
+@using HorseService.Data
+@inject HorseServiceContext _context
+@{
+
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-header d-flex justify-content-between align-items-center">
+                            @sharedResource["Add"]  @sharedResource["OffDay"]
+                            <a asp-page="Index" class="btn btn-primary"> @sharedResource["Back"]</a>
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="text text-danger">@Html.ValidationMessage("DateError")</div>
+                        <div class="text text-danger">@Html.ValidationMessage("PeriodError")</div>
+
+                        <br />
+
+                        <form id="form" method="post">
+                            <div class="modal-content bd-0 tx-14">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="modal-body pd-10">
+                                    <div class="row mg-b-25">
+
+                                      
+                                        <!-- col-6 -->
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label>@sharedResource["Break Type"]<span class="tx-danger">*</span></label>
+                                                @(Html.DevExtreme().LookupFor(c=>c.offDays.breaktypesId)
+                    .ID("BreakTypesLookup")
+  .DataSource(d => d.WebApi()
+      .Controller("Lookups")
+      .LoadAction("BreakTypesLookup")
+      .Key("Value")
+  )
+  .OnSelectionChanged("BreakLookuP")
+  .ValueExpr("Value")
+.DisplayExpr("Text")
+.Placeholder(sharedResource["Select"])
+                                            .ShowClearButton(true)
+                                            .ClearButtonText(sharedResource["Clear"])
+                                            .CancelButtonText(sharedResource["Cancel"])
+                                            .SearchPlaceholder(sharedResource["searching"])
+)
+                                                <div class="text text-danger">@Html.ValidationMessage("BreakTypeError")</div>
+                                            </div>
+                                        </div>
+                                        <!-- col-6 -->
+                                        <div class="col-lg-12" id="FromID" style="display:none">
+                                            <div class="form-group">
+                                                <label>@sharedResource["From"]<span class="tx-danger">*</span></label>
+                                                @(Html.DevExtreme().DateBoxFor(e=>e.offDays.From)
+                .Type(DateBoxType.DateTime)
+                .ID("FromDate")
+
+                .Min(DateTime.Now)
+            )
+                                                <div class="text text-danger">@Html.ValidationMessage("FromandToError")</div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12" id="OnID" style="display:none">
+                                            <div class="form-group">
+                                                <label>@sharedResource["OnDay"]<span class="tx-danger">*</span></label>
+                                                @(Html.DevExtreme().DateBoxFor(e=>e.offDays.Onday)
+                .Type(DateBoxType.Date)
+                .ID("ondaybreak")
+             .Min(DateTime.Now)
+
+            )
+                                                <div class="text text-danger">@Html.ValidationMessage("Onday")</div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12" id="ToID" style="display:none">
+                                            <div class="form-group">
+                                                <label>@sharedResource["To"]<span class="tx-danger">*</span></label>
+                                                @(Html.DevExtreme().DateBoxFor(e=>e.offDays.To)
+                .Type(DateBoxType.DateTime)
+                .ID("ToDate")
+
+                 .Min(DateTime.Now)
+            )
+
+                                                <div class="text text-danger">@Html.ValidationMessage("FromandToError")</div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">@sharedResource["Submit"]</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                        </form>
+                    </div>
+                    </div>
+                    <div class="card-body">
+                        @(Html.DevExtreme().DataGrid<HorseService.Models.Appointments>()
+                        .ID("gridContainer")
+                        .DataSource(ds => ds.Mvc()
+                        .Controller("Appointments")
+                         .LoadAction("GetEmployeeAppointments")
+                      .Key("AppointmentsId")
+                      .LoadParams(new { employeeId = Model.EmplyeeId })
+                        )
+                        .Columns(columns => {
+                           
+                            columns.AddFor(m => m.Employee.Image)
+            .Width(100)
+            .AllowFiltering(false)
+            .AllowSorting(false)
+            .CellTemplate(@<text>
+                <div>
+                    <img width="50" height="50" src="~/Images/Employee/@Model.employee.Image" alt=""/>
+                </div>
+            </text>).Caption(sharedResource["Picture"]);
+                            columns.AddFor(m => m.EmployeeId).Lookup(lookup => lookup
+                             .DataSource(ds => ds.WebApi().Controller("Lookups").LoadAction("EmployeesLookup").Key("Value"))
+                                           .ValueExpr("Value")
+                                           .DisplayExpr("Text")
+                           ).Caption(sharedResource["Employee"]);
+                            columns.AddFor(m => m.TimeFrom).Caption(sharedResource["From"]).DataType(GridColumnDataType.DateTime).Format("dd/MM/yyyy HH:mm:ss");
+
+                            columns.AddFor(m => m.TimeTowill).Caption(sharedResource["To"]).DataType(GridColumnDataType.DateTime).Format("dd/MM/yyyy HH:mm:ss");
+
+
+
+                        })
+                          .Paging(paging => paging.PageSize(10))
+                        .Pager(pager =>
+                        {
+                            pager.Visible(true);
+                            pager.DisplayMode(GridPagerDisplayMode.Full);
+                            pager.ShowPageSizeSelector(true);
+                            pager.AllowedPageSizes(new JS("[5, 10, 'all']"));
+                            pager.ShowInfo(true);
+                            pager.ShowNavigationButtons(true);
+
+                        })
+                        .HeaderFilter(headerFilter => headerFilter.Visible(true)).ShowColumnLines(true)
+                        .ShowRowLines(true)
+                         .FilterRow(filterRow => filterRow
+                         .Visible(true)
+                         .ApplyFilter(GridApplyFilterMode.Auto))
+                        .RowAlternationEnabled(true)
+                        .AllowColumnReordering(true)
+                        .ShowRowLines(true)
+                        .ShowBorders(true)
+                        .SearchPanel(searchPanel => searchPanel
+                        .Visible(true)
+                        .Width(240)
+                        .Placeholder(sharedResource["SearchTxt"]))
+                        .RemoteOperations(true)
+                        .RtlEnabled(bool.Parse(sharedResource["ArLang"]))
+                                        )
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    function BreakLookuP() {
+        var breakType = $("#BreakTypesLookup").dxLookup("instance");
+        console.log(breakType)
+        var breakTypeValue = breakType.option("selectedItem");
+        console.log(breakTypeValue)
+        if (breakTypeValue != null) {
+            if (breakTypeValue.Text == "Hourly") {
+                console.log("Hourly")
+                document.getElementById("FromID").style.display = 'block'
+                document.getElementById("ToID").style.display = 'block'
+                document.getElementById("OnID").style.display = 'none'
+
+                //document.getElementById("FromDate").setAttribute('required', '')
+                //document.getElementById("ToDate").setAttribute('required', '')
+
+            }
+            else if (breakTypeValue.Text == "Weekly") {
+                console.log("Weekly")
+                document.getElementById("FromID").style.display = 'block'
+                document.getElementById("ToID").style.display = 'block'
+
+                document.getElementById("OnID").style.display = 'none'
+                //document.getElementById("FromDate").setAttribute('required', '')
+                //document.getElementById("ToDate").setAttribute('required', '')
+
+            }
+            else if (breakTypeValue.Text == "Daily") {
+                console.log("Daily")
+                document.getElementById("OnID").style.display = 'block'
+                document.getElementById("FromID").style.display = 'none'
+                document.getElementById("ToID").style.display = 'none'
+
+                //document.getElementById("ondaybreak").setAttribute('required', '')
+
+            }
+
+        }
+    }
+
+
+</script>

@@ -1,0 +1,372 @@
+﻿@page
+@model HorseService.Areas.Admin.Pages.Appointment.AppointmentDetailsModel
+@{
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title"> @sharedResource["Appointment Details"]  </h2>
+                        <div class="col-md-12 invers">
+
+                            <a asp-page="Index" class="btn btn-primary"> @sharedResource["Back"]</a>
+                            <br />
+                        </div>
+                      
+                       
+                        <div style="padding-top:20px;padding-left:20px;padding-right:20px">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-6 mt-4">
+                                    <h4> @sharedResource["Customer_Information"] </h4>
+                                    <hr />
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div> @sharedResource["Name"] </div>
+                                        <div> @Model.appointments.Customer.CustomerNameEn </div>
+                                    </div>
+
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["Phone"]  </div>
+                                        <div> @Model.appointments.Customer.CustomerPhone </div>
+                                    </div>
+                                    @*<div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["Email"]  </div>
+                                        <div> @Model.appointments.Customer.CustomerEmail </div>
+                                    </div>*@
+                                   
+
+                                </div>
+
+                                <div class="col-md-12 col-lg-6 mt-4">
+                                    <h4> @sharedResource["Employee_Information"] </h4>
+                                    <hr />
+
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div> @sharedResource["FullName"] </div>
+
+                                        <div> @Model.appointments.Employee.FullName </div>
+                                    </div>
+
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["IsActive"]  </div>
+                                        @{
+                                            if (Model.appointments.Employee.IsActive)
+                                            {
+                                                <div>@sharedResource["Active"] </div>
+                                            }
+                                            else
+                                            {
+                                                <div>@sharedResource["Not Active"] </div>
+                                            }
+                                        }
+
+                                    </div>
+                                    @*@{if (Model.appointments.Service != null)
+                                        {
+                                            <div class="customer_info_container d-flex justify-content-between">
+                                                <div>@sharedResource["Service"]  </div>
+                                                <div> @Model.appointments.Service.Title </div>
+                                            </div>
+                                        } }*@
+
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["Description"]  </div>
+                                        <div> @Model.appointments.Employee.Description </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-12 col-lg-6 mt-4">
+                                    <h4> @sharedResource["Appointment_Information"] </h4>
+                                    <hr />
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div> @sharedResource["No. of Horses"]  </div>
+                                        <div> @Model.appointments.NumberofHorses </div>
+                                    </div>
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div> @sharedResource["Date"]</div>
+                                        <div> @Model.appointments.Date.Date </div>
+                                    </div>
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div> @sharedResource["Time From"]  </div>
+                                        <div> @Model.appointments.TimeFrom.ToShortTimeString() </div>
+                                    </div>
+                                    
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["Time To Will"]  </div>
+                                        <div> @Model.appointments.TimeTowill.ToShortTimeString()  </div>
+                                    </div>
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["Address"]  </div>
+                                        <div> @Model.appointments.CustomerAddress </div>
+                                    </div>
+
+                                     
+
+                                    <div class="col-md-12 col-lg-12 mt-4">
+                                        <h4> @sharedResource["Customer Location Information"] </h4>
+                                    <hr />
+                                        <dl class="row">
+                                            <dt class="col-sm-2">@sharedResource["Latitude"]  </dt>
+                                            <dd class="col-sm-10"> @Model.appointments.Lat </dd>
+                                        </dl>
+                                    </div>
+                           
+                                    <div class="col-md-12 col-lg-12 mt-4">
+
+                                        <dl class="row">
+                                            <dt class="col-sm-2">@sharedResource["Langtitude"]  </dt>
+                                            <dd class="col-sm-10"> @Model.appointments.Lng </dd>
+                                        </dl>
+                                    </div>
+                                    <div class="col-lg-12 mt-4">
+                                        <div class="form-group">
+                                            @*<label class="form-control-label">@sharedResource["Customer Location"]</label>*@
+                                            <div>
+                                                @*<hr />*@
+                                                <div id="p1" data-v-04358d3c="" class="v-list__tile__title dis_copy"
+                                                     style=" word-break: break-word;justify-content: space-between; display: none;">
+                                                    https://maps.google.com/?q=@Model.appointments.Lat,@Model.appointments.Lng
+
+
+                                                </div>
+                                                <br />
+                                                <button class="btn-success" onclick="copyToClipboard('#p1')">@sharedResource["Copy Location"]</button>
+                                            </div>
+
+                                        </div>
+                                        <div class="alert alert-dismissible alert-success" style="display:none" id="alert">
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                            <strong>@sharedResource["Location Copied"] !</strong> .
+                                        </div>
+
+                                    </div>
+                        <hr />
+                                    <div class="customer_info_container d-flex justify-content-between mt-2">
+                                        <div>@sharedResource["Cost"]  </div>
+                                        <div> @Model.appointments.Cost </div>
+                                    </div>
+
+                                    @*<div class="customer_info_container d-flex justify-content-between">
+            <div> @sharedResource["Closed"]  </div>
+            <div> @Model.order.Closed </div>
+        </div>*@
+
+                                </div>
+                                @{
+                                    if (Model.appointments.PaymentMethodId != null)
+                                    {
+                                        <div class="col-md-12 col-lg-6 mt-4">
+                                            <h4> @sharedResource["Payment_Information"]  </h4>
+                                            <hr />
+                                           
+                                            <div class="customer_info_container d-flex justify-content-between">
+                                                <div>@sharedResource["Payment Method Title"]  </div>
+                                                <div> @Model.paymentMethod.PaymentMethodTitle</div>
+                                            </div>
+
+                                        </div>
+                                    }
+                                }
+                                
+                                <form method="post" enctype="multipart/form-data">
+                                        <div class="col-md-12 col-lg-6 mt-4">
+                                            <h4> @sharedResource["Is Paid"]  </h4>
+                                            <hr />
+                                           
+                                            <div class="customer_info_container d-flex justify-content-between " >
+                                                <input type="checkbox" name="isPaid" asp-for="@Model.appointments.ispaid" />
+                                            </div>
+                                            <br />
+                                                <input type="Submit" class="btn-success  " value="@sharedResource["Save"] "  />
+
+                                        </div>
+                        </form>
+                  
+                                        </div>
+
+                                @*@{
+                                    if (Model.appointments.AppointmentStatusId != 0)
+                                    {
+                                        <div class="col-md-12 col-lg-6 mt-4">
+                                            <h4> @sharedResource["AppointmentStatus_Information"]  </h4>
+                                            <hr />
+                                            <div class="customer_info_container d-flex justify-content-between">
+                                                <div>@sharedResource["Appointment Status Title"]  </div>
+                                                <div> @Model.appointmentStatus.AppointmentStatusTitle</div>
+                                            </div>
+
+                                        </div>
+                                    }
+                                }*@
+
+                            </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                 <div class="row">
+            <div class="col-12">
+            <div class="card-body">
+            <h2>@sharedResource["Appoinment Details List"]</h2>
+                        @(Html.DevExtreme().DataGrid<HorseService.Models.AppointmentDetails>()
+    .DataSource(ds => ds.Mvc()
+        .Controller("Appointments")
+        .LoadAction("GetAppointmentDetails")
+        .LoadParams(new {AppointmentsId= Model.appointments.AppointmentsId})
+        .Key("AppointmentDetailsId")
+    )
+    
+
+    .Columns(columns => {
+
+    columns.AddFor(m => m.NumberOfHorses).Caption(sharedResource["No. of Horses"]);
+    columns.AddFor(m => m.Service.Title).Caption(sharedResource["Service"]);
+    columns.AddFor(m => m.AdditionalTypes).Caption(sharedResource["Additional Types"]);
+    columns.AddFor(m => m.TotalAdditionalCost).Caption(sharedResource["Total Additional Cost"]);
+    columns.AddFor(m => m.Cost).Caption(sharedResource["Total Cost"]);
+
+    
+
+   
+
+
+
+   
+    
+    })
+                        .Paging(paging => paging.PageSize(10))
+                        .Pager(pager =>
+                        {
+                            pager.Visible(true);
+                            pager.DisplayMode(GridPagerDisplayMode.Full);
+                            pager.ShowPageSizeSelector(true);
+                            pager.AllowedPageSizes(new JS("[5, 10, 'all']"));
+                            pager.ShowInfo(true);
+                            pager.ShowNavigationButtons(true);
+
+                        })
+                        .HeaderFilter(headerFilter => headerFilter.Visible(true)).ShowColumnLines(true)
+                        .ShowRowLines(true)
+                        .RowAlternationEnabled(true)
+                        .AllowColumnReordering(true)
+                        .ShowRowLines(true)
+                        .ShowBorders(true)
+                        .SearchPanel(searchPanel => searchPanel
+                        .Visible(true)
+                        .Width(240)
+                        .Placeholder(sharedResource["SearchTxt"]))
+                        .RemoteOperations(true)
+                        .RtlEnabled(bool.Parse(sharedResource["ArLang"]))
+
+                                        )
+                        
+
+                    </div>
+             </div>
+        </div>
+           <div class="row">
+            <div class="col-12">
+            <div class="card-body">
+            <h2>@sharedResource["Times List"]</h2>
+                        @(Html.DevExtreme().DataGrid<HorseService.Models.AppoimentsDate>()
+    .DataSource(ds => ds.Mvc()
+        .Controller("Appointments")
+        .LoadAction("GetAppointmentDates")
+        .LoadParams(new {AppointmentsId= Model.appointments.AppointmentsId})
+        .Key("AppoimentsDateId")
+    )
+    
+
+    .Columns(columns => {
+       
+     columns.AddFor(m => m.Date).Caption( @sharedResource["Date"]);                               
+    columns.AddFor(m => m.TimeFrom).Caption( @sharedResource["Time From"]);
+    columns.AddFor(m => m.TimeTowill).Caption(@sharedResource["Time To Will"]);
+
+    
+
+   
+
+
+
+   
+    
+    })
+                        .Paging(paging => paging.PageSize(10))
+                        .Pager(pager =>
+                        {
+                            pager.Visible(true);
+                            pager.DisplayMode(GridPagerDisplayMode.Full);
+                            pager.ShowPageSizeSelector(true);
+                            pager.AllowedPageSizes(new JS("[5, 10, 'all']"));
+                            pager.ShowInfo(true);
+                            pager.ShowNavigationButtons(true);
+
+                        })
+                        .HeaderFilter(headerFilter => headerFilter.Visible(true)).ShowColumnLines(true)
+                        .ShowRowLines(true)
+                        .RowAlternationEnabled(true)
+                        .AllowColumnReordering(true)
+                        .ShowRowLines(true)
+                        .ShowBorders(true)
+                        .SearchPanel(searchPanel => searchPanel
+                        .Visible(true)
+                        .Width(240)
+                        .Placeholder(sharedResource["SearchTxt"]))
+                        .RemoteOperations(true)
+                        .RtlEnabled(bool.Parse(sharedResource["ArLang"]))
+
+                                        )
+                        
+
+                    </div>
+             </div>
+        </div>
+            </div>
+       
+    
+
+<style>
+    .product_container {
+        background-color: #4b49ac;
+        padding: 14px;
+        height: 300px;
+    }
+
+    .product_img_container {
+        width: 151px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+        padding: 9px;
+    }
+
+    .product_order_details {
+        color: white
+    }
+</style>
+
+           
+
+<script>
+
+
+    function copyToClipboard(element) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($(element).text()).select();
+        document.execCommand("copy");
+        $temp.remove();
+        document.getElementById("alert").style.display="block"
+    }
+
+</script>

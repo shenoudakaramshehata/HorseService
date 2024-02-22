@@ -1,0 +1,177 @@
+﻿@page
+@model HorseService.Areas.Admin.Pages.Employees.AppointmentDetailsModel
+@{
+}
+<div class="page-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-header d-flex justify-content-between align-items-center">
+                            @sharedResource["Appointment Details"]
+                            <a asp-page="Appointment" asp-route-Id="@Model.appointments.EmployeeId" class="btn btn-primary invers"> @sharedResource["Back"]</a>
+
+                        </h2>
+                    </div>
+                    <div class="card-body">
+
+                        <div style="padding-top:20px;padding-left:20px;padding-right:20px">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-6 mt-4">
+                                    <h4> @sharedResource["Customer_Information"] </h4>
+                                    <hr />
+
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div> @sharedResource["Name"] </div>
+                                        <div> @Model.appointments.Customer.CustomerNameEn </div>
+                                    </div>
+
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["Phone"]  </div>
+                                        <div> @Model.appointments.Customer.CustomerPhone </div>
+                                    </div>
+                                    @*<div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["Email"]  </div>
+                                        <div> @Model.appointments.Customer.CustomerEmail </div>
+                                    </div>
+                                   *@
+
+                                </div>
+
+                                <div class="col-md-12 col-lg-6 mt-4">
+                                    <h4> @sharedResource["Employee_Information"] </h4>
+                                    <hr />
+
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div> @sharedResource["FullName"] </div>
+                                        <div> @Model.appointments.Employee.FullName </div>
+                                    </div>
+
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["IsActive"]  </div>
+                                        @{
+                                            if (Model.appointments.Employee.IsActive)
+                                            {
+                                                <div>@sharedResource["Active"] </div>
+                                            }
+                                            else
+                                            {
+                                                <div>@sharedResource["Not Active"] </div>
+                                            }
+                                        }
+                                    </div>
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["Description"]  </div>
+                                        <div> @Model.appointments.Employee.Description </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-12 col-lg-6 mt-4">
+                                    <h4> @sharedResource["Appointment_Information"] </h4>
+                                    <hr />
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div> @sharedResource["No. of Horses"]  </div>
+                                        <div> @Model.appointments.NumberofHorses </div>
+                                    </div>
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div> @sharedResource["Date"]</div>
+                                        <div> @Model.appointments.Date.ToShortDateString() </div>
+                                    </div>
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div> @sharedResource["Time From"]  </div>
+                                        <div> @Model.appointments.TimeFrom.ToShortTimeString() </div>
+                                    </div>
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["Time To Will"]  </div>
+                                        <div> @Model.appointments.TimeTowill.ToShortTimeString() </div>
+                                    </div>
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["Address"]  </div>
+                                        <div> @Model.appointments.CustomerAddress </div>
+                                    </div>
+
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["Latitude"]  </div>
+                                        <div> @Model.appointments.Lat </div>
+                                    </div>
+
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["Langtitude"]  </div>
+                                        <div> @Model.appointments.Lng </div>
+                                    </div>
+                                   
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["Cost"]  </div>
+                                        <div> @Model.appointments.Cost </div>
+                                    </div>
+
+                                    @*<div class="customer_info_container d-flex justify-content-between">
+            <div> @sharedResource["Closed"]  </div>
+            <div> @Model.order.Closed </div>
+        </div>*@
+
+                                </div>
+                                @{
+                                    if (Model.appointments.PaymentMethodId != null)
+                                    {
+                                        <div class="col-md-12 col-lg-6 mt-4">
+                                            <h4> @sharedResource["Payment_Information"]  </h4>
+                                            <hr />
+                                           
+                                            <div class="customer_info_container d-flex justify-content-between">
+                                                <div>@sharedResource["Payment Method Title"]  </div>
+                                                <div> @Model.paymentMethod.PaymentMethodTitle</div>
+                                            </div>
+
+                                        </div>
+                                    }
+                                }
+
+                                @*@{
+                                    if (Model.appointments.AppointmentStatusId != 0)
+                                    {
+                                        <div class="col-md-12 col-lg-6 mt-4">
+                                            <h4> @sharedResource["AppointmentStatus_Information"]  </h4>
+                                            <hr />
+                                            <div class="customer_info_container d-flex justify-content-between">
+                                                <div>@sharedResource["Appointment Status Title"]  </div>
+                                                <div> @Model.AppointmentStatus.AppointmentStatusTitle</div>
+                                            </div>
+                                           
+                                        </div>
+                                    }
+                                }*@
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .product_container {
+        background-color: #4b49ac;
+        padding: 14px;
+        height: 300px;
+    }
+
+    .product_img_container {
+        width: 151px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+        padding: 9px;
+    }
+
+    .product_order_details {
+        color: white
+    }
+</style>

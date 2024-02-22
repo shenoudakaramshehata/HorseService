@@ -1,0 +1,302 @@
+﻿@page
+@model HorseService.Areas.Admin.Pages.IndexModel
+@{
+}
+@inject HorseService.Data.HorseServiceContext _context
+@using Microsoft.AspNetCore.Localization;
+
+<link href="~/Admin/assets/libs/c3/c3.min.css" rel="stylesheet" type="text/css">
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-6 col-xl-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mini-stat">
+                            <span class="mini-stat-icon bg-purple me-0 float-end"><i class="mdi mdi-basket"></i></span>
+                            <div class="mini-stat-info">
+                                <span class="counter text-purple">@Model.AppointmentCount</span>
+
+                                @sharedResource["Appointment Count"]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mini-stat">
+                            <span class="mini-stat-icon bg-blue-grey me-0 float-end"><i class="mdi mdi-black-mesa"></i></span>
+                            <div class="mini-stat-info">
+                                <span class="counter text-blue-grey">@Model.AppointmentCost</span>
+
+                                @sharedResource["Appointment Cost Per Day"]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mini-stat">
+                            <span class="mini-stat-icon bg-brown me-0 float-end"><i class="fas fa-male"></i></span>
+                            <div class="mini-stat-info">
+                                <span class="counter text-brown">@Model.ActiveEmployeeCount</span>
+
+                                @sharedResource["Active Employees"]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mini-stat">
+                            <span class="mini-stat-icon bg-brown me-0 float-end"><i class="fas fa-male"></i></span>
+                            <div class="mini-stat-info">
+                                <span class="counter text-brown">@Model.HorseCount</span>
+
+                                @sharedResource["Horses Appointment Count"]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mini-stat">
+                            <span class="mini-stat-icon bg-teal me-0 float-end"><i class="mdi mdi-coffee"></i></span>
+                            <div class="mini-stat-info">
+                                <span class="counter text-teal">@Model.DailyCustomerCount</span>
+
+                                @sharedResource["Daily Customer Count"]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card position-relative">
+                    <div class="card-body">
+                        <div id="detailedReports" class="carousel slide detailed-report-carousel position-static pt-2" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            @(Html.DevExtreme().Chart()
+                                            .ID("DailyAppointment")
+                                            .Rotated(false)
+                                            .DataSource("/api/Statistics/GetDailyAppointment")
+                                            .Series(s => s.Add()
+                                            .Label(l => l
+                                            .Visible(true)
+                                            .BackgroundColor("#c18e92")
+
+                                            )
+                                            .Color("#79cac4")
+                                            .Type(SeriesType.Bar)
+                                            .ArgumentField("employee")
+                                            .ValueField("Appointments")
+                                            )
+
+                                            .Title(sharedResource["Daily Appointment Per Employee"])
+                                            .ArgumentAxis(a => a
+                                            .Label(l => l
+                                            .CustomizeText(@<text>
+                                                    function() {
+                                                    return this.valueText;
+                                                    }
+                                                </text>)
+                                            )
+                                            )
+                                            .ValueAxis(a => a.Add()
+                                            .Tick(t => t.Visible(false))
+                                            .Label(l => l.Visible(false))
+                                            )
+                                            .Export(e => e.Enabled(true))
+                                            .Legend(l => l.Visible(false))
+                                            .ScrollBar(s => s.Visible(true))
+                                            .ZoomAndPan(z => z.ArgumentAxis(ChartZoomAndPanMode.Both))
+                             )
+                                        </div>
+
+
+                                        <div class="col-xl-6">
+                                            @(Html.DevExtreme().Chart()
+                                            .ID("CostDailyAppointment")
+                                            .Rotated(false)
+                                            .DataSource("/api/Statistics/GeCosttDailyAppointment")
+                                            .Series(s => s.Add()
+                                            .Label(l => l
+                                            .Visible(true)
+                                            .BackgroundColor("#c18e92")
+
+                                            )
+                                            .Color("#79cac4")
+                                            .Type(SeriesType.Bar)
+                                            .ArgumentField("employee")
+                                            .ValueField("Cost")
+                                            )
+
+                                            .Title(sharedResource["Daily Appointment Cost Per Employee"])
+                                            .ArgumentAxis(a => a
+                                            .Label(l => l
+                                            .CustomizeText(@<text>
+                                                    function() {
+                                                    return this.valueText;
+                                                    }
+                                                </text>)
+                                            )
+                                            )
+                                            .ValueAxis(a => a.Add()
+                                            .Tick(t => t.Visible(false))
+                                            .Label(l => l.Visible(false))
+                                            )
+                                            .Export(e => e.Enabled(true))
+                                            .Legend(l => l.Visible(false))
+                                            .ScrollBar(s => s.Visible(true))
+                                            .ZoomAndPan(z => z.ArgumentAxis(ChartZoomAndPanMode.Both))
+                             )
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card position-relative">
+                    <div class="card-body">
+                        <div id="detailedReports" class="carousel slide detailed-report-carousel position-static pt-2" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            @(Html.DevExtreme().Chart()
+                                            .ID("WeeklyAppointmentCount")
+                                            .Rotated(false)
+                                            .DataSource("/api/Statistics/GetWeeklyAppointmentCount")
+                                            .Series(s => s.Add()
+                                            .Label(l => l
+                                            .Visible(true)
+                                            .BackgroundColor("#c18e92")
+
+                                            )
+                                            .Color("#79cac4")
+                                            .Type(SeriesType.Bar)
+                                            .ArgumentField("OnDay")
+                                            .ValueField("Count")
+                                            )
+
+                                            .Title(sharedResource["Future Weekly Appointment"])
+                                            .ArgumentAxis(a => a
+                                            .Label(l => l
+                                            .CustomizeText(@<text>
+                                                    function() {
+                                                    return new Date(this.valueText).toLocaleDateString('pt-PT');
+                                                    }
+                                                </text>)
+                                            )
+                                            )
+                                            .ValueAxis(a => a.Add()
+                                            .Tick(t => t.Visible(false))
+                                            .Label(l => l.Visible(false))
+                                            )
+                                            .Export(e => e.Enabled(true))
+                                            .Legend(l => l.Visible(false))
+                                            .ScrollBar(s => s.Visible(true))
+                                            .ZoomAndPan(z => z.ArgumentAxis(ChartZoomAndPanMode.Both))
+                             )
+                                        </div>
+
+
+                                        <div class="col-xl-6">
+                                            @(Html.DevExtreme().Chart()
+                                            .ID("WeeklyHorsesCount")
+                                            .Rotated(false)
+                                            .DataSource("/api/Statistics/GetWeeklyHorsesCount")
+                                            .Series(s => s.Add()
+                                            .Label(l => l
+                                            .Visible(true)
+                                            .BackgroundColor("#c18e92")
+
+                                            )
+                                            .Color("#79cac4")
+                                            .Type(SeriesType.Bar)
+                                            .ArgumentField("OnDay")
+                                            .ValueField("Count")
+                                            )
+
+                                            .Title(sharedResource["Weekly Horses Count"])
+                                            .ArgumentAxis(a => a
+                                            .Label(l => l
+                                            .CustomizeText(@<text>
+                                                    function() {
+                                                    return new Date(this.valueText).toLocaleDateString('pt-PT');
+                                                    }
+                                                </text>)
+                                            )
+                                            )
+                                            .ValueAxis(a => a.Add()
+                                            .Tick(t => t.Visible(false))
+                                            .Label(l => l.Visible(false))
+                                            )
+                                            .Export(e => e.Enabled(true))
+                                            .Legend(l => l.Visible(false))
+                                            .ScrollBar(s => s.Visible(true))
+                                            .ZoomAndPan(z => z.ArgumentAxis(ChartZoomAndPanMode.Both))
+                             )
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+    </div>
+</div>
+
+
+<script src="~/Admin/assets/libs/peity/jquery.peity.min.js"></script>
+<script src="~/Admin/assets/libs/d3/d3.min.js"></script>
+<script src="~/Admin/assets/libs/c3/c3.min.js"></script>
+
+<script src="~/Admin/assets/libs/jquery-knob/jquery.knob.min.js"></script>
+
+<script src="~/Admin/assets/js/pages/dashboard.init.js"></script>
+
+<script src="~/Admin/assets/js/app.js"></script>
